@@ -8,57 +8,56 @@ import {
 class Egresos extends Component {
     state = { 
         titulo: "Egresos",
-        articulos: [],
+        gastos: [],
      };
 
 
      //El Componente se monto
      componentDidMount(){
-        const URL = 'https://supermercado-devf.herokuapp.com/api/v1/articulos'
+        const URL = 'http://localhost:4000/api/v1/gastos'
         axios.get(URL)
         .then(response => {
             console.log (response.data);
-            const articulos = response.data;
-           this.setState({ articulos }) 
+            const gastos = response.data;
+           this.setState({ gastos }) 
         })
         .catch( err => console.log(err));
      }
 
-     renderizarArticulos(){
-        const { articulos } = this.state; 
-        if(articulos.length === 0){
-            return <span>Cargando Egresos</span>
-        } else if (articulos.length > 0) {
-           
-        return (
-            <React.Fragment>
-                <span>Se encontraron {articulos.length}</span>
-                { articulos.map(articulo =>{
-                    return (
-                    <Card className="mt-3" style={{backgroundColor: '#0090e3'}}>
-                        <CardBody>
-                            <CardTitle>{ articulo.nombre}</CardTitle>
-                            <CardSubtitle>Card subtitle</CardSubtitle>
-                             <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                         </CardBody>
-                    </Card>
-                    
-                    )
+      renderizarGastos(){
+        const { gastos } = this.state;
+        if(gastos.length === 0){
+            return <span>Cargando Gastos</span>
+        } else if (gastos.length > 0){
 
-                })}
-            </React.Fragment>
-        
-        
-        )
-    }
-     }
+            return (
+                <React.Fragment>
+                         <span>Se encontraron {gastos.length}</span>
+                             { gastos.map(gastos =>{
+                                return (
+                                <Card className="mt-3" style={{backgroundColor: '#a3c6ff'}}>
+                                    <CardBody>
+                                        <CardTitle>{ gastos.monto}</CardTitle>
+                                        <CardText>{ gastos.descripcion}</CardText>
+                                         <CardSubtitle>{ gastos.nombre}</CardSubtitle>
+                                     </CardBody>
+                                </Card>
+                                
+                                )
+            
+                            })}
+                </React.Fragment>
 
+            )
+        }
+      }
+    
     render() { 
         return ( 
-            <React.Fragment>
+             <React.Fragment>
                          <h3>{ this.state.titulo }</h3>
-                            { this.renderizarArticulos() }
-            </React.Fragment>
+                            { this.renderizarGastos() }
+             </React.Fragment>
         
          );
     }
